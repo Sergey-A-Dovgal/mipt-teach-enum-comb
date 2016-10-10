@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[a5paper]{article}
 
 % Uncomment the following line to allow the usage of graphics (.png, .jpg)
 %\usepackage[pdftex]{graphicx}
@@ -25,40 +25,36 @@
 \usepackage{subcaption}
 \usepackage{amscd}
 
+\def \topic {Семинар 3}
+
 \renewcommand{\thesection}{\arabic{section}}
 
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
-\fancyfoot[L]{стр. \thepage}
-\fancyfoot[R]{\today}
 
-\fancyhead[R]{Современные приложения ДА и ФА}
+\fancyhead[R]{\thepage}
 %For multipage documents only!
 %\fancyfoot[L]{page: \thepage}
-%Uncomment this for 1-page sheets
 \fancyhead[L]{Перечислительная комбинаторика}
-\fancyfoot[C]{}
-
+\fancyfoot[C]{\topic}
 \pagestyle{fancy}
 
 \renewcommand{\baselinestretch}{1.0}
 \renewcommand\normalsize{\sloppypar}
 
 \setlength{\topmargin}{-0.5in}
-\setlength{\textheight}{9.1in}
+\setlength{\textheight}{6.5in}
 \setlength{\oddsidemargin}{-0.3in}
 \setlength{\evensidemargin}{-0.3in}
-\setlength{\textwidth}{7in}
+\setlength{\textwidth}{4.5in}
 \setlength{\parindent}{0ex}
-\setlength{\parskip}{1ex}
+% \setlength{\parskip}{1ex}
 
 \newcounter{problemset}
 \newcounter{totalpages}
 %Here you should set the total number of pages
 \setcounter{totalpages}{1}
-
-\def \topic {Семинар 3}
 
 
 \def \Z {\mathbb Z}
@@ -219,13 +215,14 @@ Z_{\geq 0}}$.
 \begin{itemize}
 	\item \( E(z) = \exp\left(\dfrac12 \log \dfrac{1}{1-z^2}\right) = 
 	\dfrac{1}{\sqrt{1 - z^2}} \) , 
-	\( \qquad \bullet \) \( O(z) = \exp\left(\dfrac12 \log 
+	\item \( O(z) = \exp\left(\dfrac12 \log 
 	\dfrac{1+z}{1-z}\right) = 
-	\sqrt{\dfrac{1+z}{1-z}} \)
+	\sqrt{\dfrac{1+z}{1-z}} \) ,
 	\item \( E^{*}(z) = \mathrm{ch}\ \left(\log \dfrac{1}{1 - z}\right) = 
-	\dfrac12 \dfrac{1}{1 - z} + \dfrac{1 - z}{2} \) , \( \qquad \bullet \)
+	\dfrac12 \dfrac{1}{1 - z} + \dfrac{1 - z}{2} \) ,
+    \item
 	\( O^{*}(z) = \mathrm{sh}\ \left( \log \dfrac{1}{1 - z}\right) = 
-	\dfrac12\dfrac{1}{1 - z} + \dfrac{z - 1}{2} \).
+	\dfrac12\dfrac{1}{1 - z} + \dfrac{z - 1}{2} \) .
 \end{itemize}
 
 \section{Цикловой индекс}
@@ -321,11 +318,11 @@ Z_{\geq 0}}$.
 \sigma_1! 2^{\sigma_2} \sigma_2! \ldots \). Это число мы будем обозначать через
 \( \mathbf{aut}(\sigma) \). Нетрудно показать, что цикловой индекс можно также
 записать в виде
-\[
-    Z_F(x_1, x_2, x_3, \ldots) = \sum_{n_1 + 2n_2 + 3n_3 + \ldots < \infty}
+\begin{multline*}
+    Z_F(x_1, x_2, x_3, \ldots) =\\ \sum_{n_1 + 2n_2 + 3n_3 + \ldots < \infty}
 \mathrm{Fix}\; F[n_1, n_2, n_3, \ldots] \dfrac{x_1^{n_1} x_2^{n_2}
 x_3^{n_3}}{1^{n_1} n_1! 2^{n_2} n_2! 3^{n_3} n_3! \ldots} \enspace ,
-\]
+\end{multline*}
 где \( \mathrm{Fix}\; F[n_1, n_2, \ldots] \)~--- число неподвижных точек
 перестановки объектов, индуцированной перестановкой \( n \) атомов с цикловым типом \(
 (n_1, n_2, n_3, \ldots ) \).
@@ -536,14 +533,14 @@ x^3) \ldots} \enspace , \\
 \begin{theorem}
 	Пусть \( F \), \( G \)~--- два класса объектов, для 
 	которых \( G \) не содержит пустого объекта. Тогда
-	\[
-		Z_{F \circ G}(x_1, x_2, \ldots) = Z_F(
+	\begin{multline*}
+		Z_{F \circ G}(x_1, x_2, \ldots) =\\ Z_F(
 			Z_G(x_1, x_2, x_3, \ldots),
 			Z_G(x_2, x_4, x_6, \ldots),
             Z_G(x_3, x_6, x_9, \ldots),
 			\ldots
 		) \enspace .
-	\]
+	\end{multline*}
 	Как следствие, обыкновенная производящая функция для композиции классов имеет вид
 	\[
 		\widetilde{F \circ G}(x) = Z_F(\widetilde G(x), \widetilde G(x^2), 
@@ -817,24 +814,30 @@ F \)-структурой на \( U \), и атом \(u \in U \) интерпр�
 Этот факт несложно доказать, раскладывая интеграл в сумму слагаемых, и кроме
 того, его доказывают в самом начале курса по ТФКП. Используя теорему Коши,
 получаем
-\[
-    \sum_{n \geq 0} f_n g_n z^n = \sum_{n \geq 0} \left(
+\begin{multline*}
+    \sum_{n \geq 0} f_n g_n z^n =
+    \sum_{n \geq 0} \left(
         \dfrac{1}{2\pi i} \oint_{|\zeta| = \rho} \dfrac{f(\zeta)}{\zeta^{n+1}} d
-\zeta
-    \right) b_n z^n = \dfrac{1}{2\pi i} \oint_{|\zeta| = \rho}
-\left(
-    \dfrac{f(\zeta)}{\zeta} \sum_{n \geq 0} b_n \left( \dfrac{z}{\zeta}
-\right)^n
-\right) d \zeta = \dfrac{1}{2\pi i} \oint_{|\zeta| = \rho}
-\dfrac{f(\zeta)}{\zeta} g\left( \dfrac z \zeta \right) d \zeta \enspace .
-\]
+    \zeta
+    \right) b_n z^n
+    = \\
+    \dfrac{1}{2\pi i} \oint_{|\zeta| = \rho}
+    \left(
+        \dfrac{f(\zeta)}{\zeta} \sum_{n \geq 0} b_n \left( \dfrac{z}{\zeta}
+    \right)^n
+    \right) d \zeta = \dfrac{1}{2\pi i} \oint_{|\zeta| = \rho}
+    \dfrac{f(\zeta)}{\zeta} g\left( \dfrac z \zeta \right) d \zeta \enspace .
+\end{multline*}
 \end{proof}
-\begin{theorem}
-    Рациональной функцией называется функция вида
+\begin{definition}
+Рациональной функцией называется функция вида
 \[
     f(z) = \dfrac{P(z)}{Q(z)} \enspace ,
 \] 
-где \( P(z) \) и \( Q(z) \)~--- многочлены. Если \( f(z) \), \( g(z) \)~---
+где \( P(z) \) и \( Q(z) \)~--- многочлены. 
+\end{definition}
+\begin{theorem}
+Если \( f(z) \), \( g(z) \)~---
 рациональные функции, то \( f(z) \odot g(z) \) тоже рациональная функция.
 \end{theorem}
 \begin{proof}({\cite{lando}})

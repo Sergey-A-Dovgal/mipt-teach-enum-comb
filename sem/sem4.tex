@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[a5paper]{article}
 
 % Uncomment the following line to allow the usage of graphics (.png, .jpg)
 %\usepackage[pdftex]{graphicx}
@@ -25,20 +25,21 @@
 \usepackage{subcaption}
 \usepackage{amscd}
 
+\def \topic {Семинар 3}
+
 \renewcommand{\thesection}{\arabic{section}}
 
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
-\fancyfoot[L]{стр. \thepage}
-\fancyfoot[R]{\today}
+%\fancyfoot[RE,LO]{\thepage}
+%\fancyfoot[L]{}
 
-\fancyhead[R]{Современные приложения ДА и ФА}
+\fancyhead[R]{\thepage}
 %For multipage documents only!
 %\fancyfoot[L]{page: \thepage}
-%Uncomment this for 1-page sheets
 \fancyhead[L]{Перечислительная комбинаторика}
-\fancyfoot[C]{}
+\fancyfoot[C]{\topic}
 
 \pagestyle{fancy}
 
@@ -46,19 +47,18 @@
 \renewcommand\normalsize{\sloppypar}
 
 \setlength{\topmargin}{-0.5in}
-\setlength{\textheight}{9.1in}
+\setlength{\textheight}{6.5in}
 \setlength{\oddsidemargin}{-0.3in}
 \setlength{\evensidemargin}{-0.3in}
-\setlength{\textwidth}{7in}
+\setlength{\textwidth}{4.5in}
 \setlength{\parindent}{0ex}
-\setlength{\parskip}{1ex}
+% \setlength{\parskip}{1ex}
 
 \newcounter{problemset}
 \newcounter{totalpages}
 %Here you should set the total number of pages
 \setcounter{totalpages}{1}
 
-\def \topic {Семинар 3}
 
 
 \def \Z {\mathbb Z}
@@ -335,7 +335,7 @@ x_2^{\sigma_2} \ldots
 Заметим, что формулы \( F_w(x) = Z_{F_w} (x, 0, 0, \ldots) \) и \( \widetilde
 F_{w} (x) = Z_{F_w} (x, x^2, x^3, \ldots) \) остаются верными. 
 
-\begin{example}[Формула Харера-Цагира, \cite{lando, pittel}]
+\begin{example}[Формула Харера-Цагира, \cite{lando}, \cite{pittel}]
 \label{example:harer-zagier}
     В топологии известно утверждение, что всякая замкнутая ориентируемая
 двухмерная поверхность гомеоморфна сфере, к которой приклеено конечное число
@@ -391,7 +391,7 @@ F_{w} (x) = Z_{F_w} (x, x^2, x^3, \ldots) \) остаются верными.
         tx - \dfrac12 x^2
     \right) = \sum_{n \geq 0} H_n(t) \dfrac{x^n}{n!} \enspace ,
 \]
-где ВНЕЗАПНО \( H_n(t) \) оказывается полиномом Эрмита от переменной \( t \)
+где \textit{внезапно,} \( H_n(t) \) оказывается полиномом Эрмита от переменной \( t \)
 степени \( n \). К вашему сведению, полиномы Эрмита являются собственными
 функциями \textit{квантового гармонического осциллятора} (подробно об этом
 рассказывают на физтехе в курсе квантовой механики в 6-7 семестрах
@@ -405,7 +405,7 @@ F_{w} (x) = Z_{F_w} (x, x^2, x^3, \ldots) \) остаются верными.
 \[
     H_n(t)'' - t H_n(t)' + n H_n(t) = 0 \enspace ,
 \]
-что можно выяснить комбинаторно. Кроме того, можно показать, что эти полиномы
+и это можно доказать комбинаторно. Кроме того, можно показать, что эти полиномы
 удовлетворяют рекуррентному соотношению
 \[
     H_{n+1} (t) = t H_n(t) - n H_{n-1}(t) \enspace .

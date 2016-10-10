@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[a5paper]{article}
 % Uncomment the following line to allow the usage of graphics (.png, .jpg)
 %\usepackage[pdftex]{graphicx}
 % Comment the following line to NOT allow the usage of umlauts
@@ -25,6 +25,7 @@
 \usepackage{subcaption}
 \usepackage{amscd}
 
+\def \topic {Семинар 2}
 
 %\renewcommand{\thesection}{\arabic{section}.}
 
@@ -34,32 +35,31 @@
 \fancyfoot[L]{стр. \thepage}
 \fancyfoot[R]{\today}
 
-\fancyhead[R]{Современные приложения ДА и ФА}
+\fancyhead[R]{\thepage}
 %For multipage documents only!
 %\fancyfoot[L]{page: \thepage}
-%Uncomment this for 1-page sheets
 \fancyhead[L]{Перечислительная комбинаторика}
-\fancyfoot[C]{}
+\fancyfoot[C]{\topic}
 
 \pagestyle{fancy}
 
 \renewcommand{\baselinestretch}{1.0}
 \renewcommand\normalsize{\sloppypar}
 
+
 \setlength{\topmargin}{-0.5in}
-\setlength{\textheight}{9.1in}
+\setlength{\textheight}{6.5in}
 \setlength{\oddsidemargin}{-0.3in}
 \setlength{\evensidemargin}{-0.3in}
-\setlength{\textwidth}{7in}
+\setlength{\textwidth}{4.5in}
 \setlength{\parindent}{0ex}
-\setlength{\parskip}{1ex}
+% \setlength{\parskip}{1ex}
 
 \newcounter{problemset}
 \newcounter{totalpages}
 %Here you should set the total number of pages
 \setcounter{totalpages}{1}
 
-\def \topic {Семинар 2}
 
 \def \Z {\mathbb Z}
 \def \R {\mathbb R}
@@ -139,11 +139,11 @@
 них есть одна особенно прекрасная.
 
 Оказывается, псевдо-производящая функция для коэффициентов \( b_p \) может иметь вид
-\[
-	f(z) = z\prod_{n \geq 1}(1 - z^{n})^2(1 - z^{11 n})^{2} = 
+\begin{multline*}
+	f(z) = z\prod_{n \geq 1}(1 - z^{n})^2(1 - z^{11 n})^{2} = \\
 	z(1 - z)^2(1 - z^{11})^{2}(1 - z^2)^2(1 - z^{22})^{2}(1 - z^3)^2(1 - 
 	z^{33})^{2} \ldots
-\]
+\end{multline*}
 Если раскрыть скобки, то получим
 \[
 	f(z) = z - 2z^2 - z^3 + 2z^4 + z^5 + 2z^6 - 2z^7 - 2z^9 - 2z^{10} + z^{11} 
@@ -681,9 +681,10 @@ n \)~--- это объекты размера \( n+1 \) исходного кл�
 \]
 удовлетворяет функциональному уравнению
 \[
-	G_k\left( \dfrac{a \tau + b}{c \tau + d}\right) = (c \tau + d)^2 G_k(\tau), \qquad \forall a,b,c,d \in \mathbb Z, \, ad - bc = 1 \enspace ,
+	G_k\left( \dfrac{a \tau + b}{c \tau + d}\right) = (c \tau + d)^2 G_k(\tau),
+\qquad \forall a,b,c,d \in \mathbb Z, \, ad - bc = 1 \enspace .
 \]
-то есть функция Эйзенштейна является модулярной формой веса 2.
+(функция Эйзенштейна является модулярной формой веса 2.)
 
 \item(7 очков) Докажите, что
 для функции
@@ -707,8 +708,12 @@ e^{2 i \pi \tau}
 \cite[Proposition 3.2.2]{first_course_modular_forms}. Оказывается, нужно
 воспользоваться тем фактом, что функция \( \varphi(\tau) \) представляется в
 виде \( \eta(\tau)^k \eta(N \tau)^k  \), где \( N = 11, \, k = 2 \), \( k(N+1) =
-24 \), и функция \( \eta(\tau) = \tau^{\frac{1}{24}} \prod_{n \geq 1}(1 -
-\tau^n) \)~--- функция Дедекинда.
+24 \), и функция
+\[
+    \eta(\tau) = \tau^{\frac{1}{24}} \prod_{n \geq 1}(1 -
+    \tau^n)
+\]
+это функция Дедекинда.
 
 \item(3 очка) Пусть задан формальный степенной ряд \( f(t) = \sum_{n \geq 1} c_n t^n \), \( f'(0) \neq 0 \), а также неизвестная функция \( t(x) \), удовлетворяющая условию
 \[
