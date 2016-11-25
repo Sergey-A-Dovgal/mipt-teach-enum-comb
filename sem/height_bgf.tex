@@ -1,0 +1,214 @@
+%\documentclass[a4paper,twocolumn]{article}
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{nameref}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage[sc]{titlesec}
+\usepackage{anysize}
+
+\usepackage{hyperref}
+\definecolor{lgreen}{rgb}{0.0, 0.48, 0.0}
+\definecolor{lpurple}{rgb}{0.48, 0.0, 0.48}
+\hypersetup{linktocpage,
+            colorlinks=true,
+            linkcolor=lgreen,
+            citecolor=lpurple,
+            linktoc=true}
+
+\bibliographystyle{alpha}
+
+%------------- TIKZ --------------------
+\definecolor{bblue}{rgb}{0.2, 0.4, 0.8}
+\definecolor{bgreen}{rgb}{0.2, 0.6, 0.4}
+\definecolor{bred}{rgb}{0.8, 0.4, 0.2}
+\definecolor{bviolet}{rgb}{0.7, 0.2, 0.7}
+\definecolor{blackred}{rgb}{0.6, 0.3, 0.3}
+\definecolor{blackblue}{rgb}{0.3, 0.3, 0.6}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,trees,shapes,snakes,shapes.geometric}
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered,
+    font=\sffamily},
+  arn_nn/.style = {treenode, circle, bblue, draw=bblue, 
+    fill=bblue!10,
+    minimum width=0.5em, minimum height=0.5em
+},% arbre rouge noir, noeud rouge
+  arn_n/.style = {treenode, circle, bblue, draw=bblue, 
+    text width=1.5em, very thick,
+    fill=bblue!10},% arbre rouge noir, noeud rouge
+  arn_g/.style = {treenode, circle, bgreen, draw=bgreen, 
+    text width=1.5em, very thick,
+    fill=bblue!10},% arbre rouge noir, noeud rouge
+  arn_r/.style = {treenode, circle, bred, draw=bred, 
+    text width=1.5em, very thick,
+    fill=red!10},% arbre rouge noir, noeud rouge
+  arn_x/.style = {treenode, triangle, draw=black,
+    minimum width=0.5em, minimum height=0.5em},% arbre rouge noir, nil
+  triangle/.style = {treenode, bred, draw=bred, fill=bred!20, regular polygon, regular polygon
+    sides=3, very thick, text width=1.5em }
+}
+
+%----------------- THEOREMS -------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{problem}{Problem}
+
+
+\def\SET{\mathrm{SET}}
+\def\zz{ {\widehat{z}} }
+\def\vec{ \mathbf }
+
+\title{
+Bivariate Generating Function for Height of Simple Trees}
+
+\author{
+Sergey Dovgal
+\\
+\texttt{vit.north@gmail.com}
+}
+
+\date{\today}
+
+%\setcounter{secnumdepth}{1}
+
+\newcommand{\comment}[1]{ {\color{bblue}\bf #1} }
+
+\begin{document}
+\maketitle
+
+
+\begin{abstract}
+In the current note I consider simple trees given by an equation
+\(
+    T(z) = z \phi(T(z))
+\),
+where both labelled and unlabelled trees fit well into this framework. I collect the
+technical results from [Flajolet-Odlyzko] to obtain a beautiful
+expression for bivariate generation function \( F(z, u) \) where \( u \) marks
+tree height
+\[
+    \boxed{
+    F(z, u) \asymp
+        T(z) +
+        \widetilde C (u-1) \log \dfrac{1}{\varepsilon(z) }
+        +
+        \widetilde C \varepsilon(z) \sum_{n \geq 1}
+        \left[
+            \log \dfrac{1}{1 - \tfrac{u-1}{\varepsilon n}} - \dfrac{u-1}{\varepsilon n} 
+        \right]
+    }
+\enspace , 
+\]
+where the function \( \varepsilon(z) \) and the constants \( \rho \), \( \widetilde C \) are given by
+\[
+    \varepsilon(z) = \tau \left( \dfrac{2 \phi''(\tau)}{\phi(\tau)}
+\right)^{1/2}\cdot \sqrt{1 - \tfrac z \rho} , \enspace 
+    \rho = \dfrac{\tau}{\phi(\tau) } , \enspace 
+    \widetilde C = 2 \dfrac{\phi'(\tau)}{\phi''(\tau)}
+    , \enspace   
+    \phi(\tau) = \tau \phi'(\tau) 
+    \enspace .
+\]
+\end{abstract}
+
+\begin{proof}
+In \cite{average_height} the authors prove that
+\begin{equation}
+    \left.\dfrac{d}{du}F(z,u)\right|_{u=1} \underset{z = \rho}{\asymp}
+    \widetilde C \log \dfrac{1}{\varepsilon(z)}
+    , \enspace 
+    \left. \dfrac{d^s}{du^s} F(z, u) \right|_{u=1} \underset{z = \rho}{\asymp}
+    \widetilde C \Gamma(s) \zeta(s) \varepsilon(z)^{-s+1}
+    \enspace .
+\end{equation}
+This fact is in one-to-one correspondence with the fact that the tree height is
+gaussian and that factorial moments of tree
+height behave like \( \mathbb E (h) = \Theta( \sqrt{n} ), \, \mathbb
+E(h^{\underline j}) 
+= \Theta(n^{j/2}) \), where explicit constants \( C_j \) at \( \Theta(n^j) \) provide
+the multiples in generating function: for example, for \( \mathbb E h \) we have
+\[
+    [z^n] \log(1 - 4x)^{-1} \asymp 4^n n^{-1}, \quad
+    \mathbb E h
+    =
+    \dfrac
+        {[z^n] \left. \dfrac{d}{du} F(z, u) \right|_{u=1}}
+        {[z^n] \left. F(z, u) \right|_{u=1}}
+     \asymp \dfrac{4^n n^{-1}}{(\sqrt{2 \pi})^{-1} 4^n (n \sqrt{n})^{-1}} =
+\sqrt{2 \pi n}
+    \enspace .
+\]
+Their proof actually involves integration around an interesting complex contour,
+so it is of great methodological value. It is also commonly known that
+\( 
+    T(z) \asymp \widetilde C \tau
+    \left(
+        \frac{2 \phi''(\tau)}
+            {\phi(\tau)}
+    \right)^{1/2}
+    \left(
+        1 - \sqrt{1 - \frac z \rho}
+    \right)
+\).
+
+Following the formal Taylor expansion at \( u = 1 \), we obtain
+\begin{equation}
+    F(z, u) =
+    \sum_{s = 0}^\infty
+        \dfrac{(u-1)^s}{s!}
+        \left.
+            \dfrac{d^s}{du^s} F(z, u)
+        \right|_{u=1}
+    \underset{z = \rho}\asymp
+    T(z) + (u-1)\widetilde C \log \dfrac{1}{\varepsilon(z)} 
+    +
+    \widetilde C
+    \sum_{s \geq 2}
+    \dfrac
+        {\Gamma(s) \zeta(s)}{s!}
+    \varepsilon(z)^{-s+1}
+    \enspace ,
+\end{equation}%
+\vspace{-0.5cm}
+\begin{multline*}
+    \sum_{s \geq 2}
+    \dfrac
+        {\Gamma(s) \zeta(s)}{s!}
+    \varepsilon(z)^{-s+1}
+    =
+    \left|_{\underset{\zeta(s) = \sum_{n \geq 1} \tfrac{1}{n^s}}{} }
+    \varepsilon(z) \sum_{n \geq 1} \sum_{s \geq 2}
+        \dfrac{( (u-1)\varepsilon^{-1} )^s}{s n^s} 
+    = \right|_{t_n = (u-1) \varepsilon^{-1} n^{-1}}
+    \\
+    =
+    \varepsilon(z) \sum_{n \geq 1} \sum_{s \geq 2} t_n^s/s
+    =
+    \varepsilon(z) \sum_{n \geq 1}
+    \left[
+        \log \dfrac{1}{1 - \tfrac{u-1}{\varepsilon n}} - \dfrac{u-1}{\varepsilon n} 
+    \right]
+    \enspace .
+\end{multline*}
+\end{proof}
+\vspace{-0.7cm}
+\textbf{Question.} Is there a place to study the full asymptotic Puiseux expansion in
+powers of \(
+\varepsilon(z) \)?
+
+\bibliographystyle{plain}
+\bibliography{biblio}
+
+\end{document}
