@@ -355,13 +355,207 @@ rounded corners=3mm,inner sep=8pt, bgreen] {};
 количество возрастающих алмазов \( B_n \), построенных на \( n \) вершинах,
 удовлетворяет свойству
 \begin{equation}
-    B_n \underset{n \to \infty}{\sim} 2 n! \left( \frac{2}{\pi} \right)^n
+    B_n \underset{n \to \infty}{\sim} 2 (n-1)! \left( \frac{2}{\pi} \right)^n
     \enspace .
 \end{equation}
 \end{enumerate}
 \begin{solution}
-
+    В этой задаче порядок обхода смежных вершин (``потомков'') не имеет
+значения. Так как вершины являются ``помеченными'', то есть снабжены различными метками от
+\(1 \) до \(n \), то мы используем так называемые \textit{экспоненциальные
+производящие функции} вместо обыкновенных производящих функций. Определение,
+напомню, такое:
+\begin{equation}
+    f(z) = \sum_{n \geq 0} a_n \dfrac{z^n}{n!} \enspace ,
+\end{equation}
 \end{solution}
+где коэффициент \( a_n \) обозначает количество объектов на \( n \) вершинах, и
+коэффициент формального степенного ряда дополнительно делится на \( n! \).
+
+При этом если мы хотим образовать \textit{пару объектов}, скажем одного и того
+же класса, таким образом, чтобы суммарное количество вершин в этой паре было
+равно \( n \), то необходимо поместить в первый объект этой пары \( k \) вершин,
+и во второй~--- \( n-k \) вершин. Далее необходимо распределить метки, и
+количество способов это сделать равно \( {n \choose k} \).
+Если перемножить две экспоненциальные производящие функции, то мы получим
+\begin{equation}
+    f(z)^2 = \sum_{n \geq 0} \left( \sum_{k=0}^n \dfrac{a_k}{k!}
+        \dfrac{a_{n-k}}{(n-k)!} \right) z^n
+    = \sum_{n \geq 0} \sum_{k=0}^n { n \choose k } a_{k} a_{n-k} \dfrac{z^n}{n!}
+    \enspace ,
+\end{equation}
+то есть экспоненциальную производящую функцию для пар объектов.
+
+Если мы хотим рассматривать только \textit{неупорядоченные пары}, то нужно
+разделить полученную производящую функцию на \( 2! \), то есть на число
+перестановок двух объектов:
+\begin{equation}
+    \dfrac{f(z)^2}{2!}
+    \enspace . 
+\end{equation}
+Аналогично поступаем в случае, если хотим рассмотреть структуру, которая
+представляет из себя \textit{множество} из \( m \) однотипных объектов:
+производящая функция имеет вид
+\begin{equation}
+    \dfrac{f(z)^m}{m!} \enspace .
+\end{equation}
+Чтобы рассмотреть множества, которые могут состоять из всевозможного количества
+объектов данного типа, нужно сложить производящие функции по всем возможным \( m
+\):
+\begin{equation}
+    \text{\textsc{set}} [ f(z) ] = \sum_{m \geq 0} \dfrac{f(z)^m}{m!} = e^{f(z)}
+\end{equation}
+За эту формулу данный тип производящих функций и получил название
+\textit{экспоненциальные} производящие функции.
+
+Рассмотрим ещё одну операцию: дифференцирование. При дифференцировании
+формального степенного ряда происходит следующее:
+\begin{equation}
+    \dfrac{d}{dz} \sum_{n \geq 0} a_n \dfrac{z^n}{n!} = 
+    \sum_{n \geq 0} n a_n \dfrac{z^{n-1}}{n!} = 
+    \sum_{n \geq 0} a_n \dfrac{z^{n-1}}{(n-1)!}
+\end{equation}
+Комбинаторный смысл этого тождества следующий: мы рассматриваем объект размера
+\( n \) (имеющий \( n \) вершин), и говорим, что в его производном классе это
+всё ещё тот же объект, но его размер мы теперь считаем \( (n-1) \). Самый
+простой способ это сделать~--- ``обезразмерить'' какую-нибудь вершину, скажем,
+вершину с наибольшим или с наименьшим номером.
+
+\noindent\begin{minipage}{0.6\textwidth}
+Вернёмся к возрастающим алмазам. Данный граф, в отличие от предыдущей задачи, не
+является \textit{плоским}, поэтому порядок смежных вершин не важен. Если мы
+берём вершины с наибольшим и наименьшим номером, и ``обезразмериваем'' их, то
+граф распадается на \textit{множество} таких же графов (при этом необходимо
+помнить, что метки внутри подграфов тоже возрастают вдоль путей).
+Получается дифференциальное уравнение:
+\begin{equation}
+    f''(z) = e^{f(z)}
+    \enspace ,
+\end{equation}
+\mbox{с начальными условиями \( f(0) = 0 \),~\( f'(0) = 1 \)}.
+\end{minipage}%
+\hfill%
+\begin{minipage}{0.3\textwidth}\raggedleft
+\begin{tikzpicture}[>=stealth',thick, node distance=1.5cm] 
+   \draw           
+   node[arn_r](1)                           { \( \ast \) }
+   node[arn_n](2)  [below right of = 1    ] { \( 2 \) } 
+   node[arn_n](4)  [below left of  = 1    ] { \( 4 \) } 
+   node[arn_n](5)  [below left of  = 2    ] { \( 5 \) } 
+   node[arn_n](3)  [below right of = 2    ] { \( 3 \) } 
+   node[arn_n](7)  [below of       = 5    ] { \( 7 \) } 
+   node[arn_n](8)  [below right of = 7    ] { \( 8 \) } 
+   node[arn_n](6)  [below left  of = 7    ] { \( 6 \) } 
+   node[arn_r](9)  [below left  of = 8    ] { \( \ast \) } 
+   ;
+   \path[->] (1) edge [bblue, thick] node {} (2);
+   \path[->] (1) edge [bblue, thick] node {} (4);
+   \path[->] (2) edge [bblue, thick] node {} (5);
+   \path[->] (2) edge [bblue, thick] node {} (3);
+   \path[->] (5) edge [bblue, thick] node {} (7);
+   \path[->] (3) edge [bblue, thick] node {} (8);
+   \path[->] (7) edge [bblue, thick] node {} (8);
+   \path[->] (4) edge [bblue, thick] node {} (6);
+   \path[->] (6) edge [bblue, thick] node {} (9);
+   \path[->] (8) edge [bblue, thick] node {} (9);
+\node[rectangle,dashed,draw,fit=(4)(6),
+rounded corners=3mm,inner sep=4pt, bgreen] {};
+\node[rectangle,dashed,draw,fit=(2)(5)(7)(3)(8),
+rounded corners=3mm,inner sep=4pt, bgreen] {};
+\node[rectangle,dashed,draw,fit=(5)(7),
+rounded corners=3mm,inner sep=2pt, bgreen] {};
+\node[rectangle,dashed,draw,fit=(3),
+rounded corners=3mm,inner sep=2pt, bgreen] {};
+\end{tikzpicture}
+\end{minipage}
+Самая интересная часть задачи состоит в том, чтобы решить это дифференциальное
+уравнение. Домножим обе части на \( 2 f'(z) \):
+\begin{equation}
+    2 f'(z) f''(z) = e^{f(z)} f'(z)
+    \enspace .
+\end{equation}
+Обе части являются производными от других известных функций, поэтому можно
+проинтегрировать (при этом не забывая про константы, которые легко получить из
+пределов интегрирования):
+\begin{equation}
+    \dfrac{d}{dz} \left( f'(z)^2 \right) = \dfrac{d}{dz} \left( 2e^{f(z)} \right)
+\enspace ,
+\end{equation}
+\begin{equation}
+    f'(z)^2 - f'(0)^2 = 2e^{f(z)} - 2e^{f(0)}
+    \enspace .
+\end{equation}
+Подставляя начальные условия, получаем дифференциальное уравнение, которое
+решается приёмом, известным вам из физики~--- ``разделение переменных''.
+\begin{equation}
+    f'(z) = \sqrt{2e^{f(z)} - 1} \, , \enspace
+    \dfrac{df}{dz} = \sqrt{2 e^{f} - 1}
+\end{equation}
+Не забываем про пределы интегрирования!
+\begin{equation}
+    \int_{f(0)}^{f(z)} \dfrac{df}{\sqrt{ 2e^f - 1}} = \int_0^z dz
+\end{equation}
+Для того, чтобы взять интеграл в левой части, делаем замену переменных: \( t =
+\sqrt{2 e^f - 1} \). Помним про то, что все замены придётся ``разворачивать''
+обратно, чтобы подставить пределы интегрирования. Можно просто менять пределы по
+ходу замены. 
+\begin{equation}
+    dt = \dfrac{e^f}{\sqrt{2 e^f - 1}} df\, , 
+    \quad
+    e^f = \dfrac{t^2 + 1}{2}
+\end{equation}
+\begin{equation}
+    \int_{f(0)}^{f(z)} \dfrac{2}{t^2 + 1} dt = z
+    \, , \quad
+    2 \cdot \left[\arctan t - \arctan 1 \right] = z 
+    \enspace .
+\end{equation}
+Пользуясь тем, что \( \arctan 1 = \dfrac{\pi}{4} \), \( t = \sqrt{2 e^f - 1} \),
+получаем
+\begin{equation}
+    \arctan \sqrt{2 e^f - 1} = \dfrac{z}{2} + \dfrac{\pi}{4}
+    \, , \quad
+    2 e^f - 1 = \tan^2 \left(  \dfrac{z}{2} + \dfrac{\pi}{4} \right)
+\end{equation}
+Пользуясь тригонометрическими соотношениями
+\begin{equation}
+    \tan^2 x + 1 = \dfrac{\sin^2 x + \cos^2 x}{\cos^2 x} = \dfrac{1}{\cos^2 x}
+\enspace ,
+\end{equation}
+а также формулой половины косинуса
+\begin{equation}
+    2 \cos^2 \theta/2 = 1 + \cos 2 \theta
+    \enspace ,
+\end{equation}
+получаем решение дифференциального уравнения:
+\begin{equation}
+    e^f = \dfrac{1}{1 - \sin z}
+    \, , \quad
+    f(z) = \log \dfrac{1}{1 - \sin z}
+    \enspace .
+\end{equation}
+Для того, чтобы верно найти асимптотику роста коэффициентов, нужно локализовать
+``сингулярность'' (особенность) комплекснозначной функции, которая находится на
+наименьшем расстоянии от нуля (остальные члены в разложении будут пренебрежимо
+малы). При желании, если вам известны все особенности комплекснозначной функции,
+вы можете получить полное разложение, но этого не требуется.
+
+Ближайшая к нулю точка, в которой синус обращается в ноль это \( \pi / 2
+\), около этой точки функция (асимптотически) раскладывается в ряд
+\begin{equation}
+    C + 2 \log \dfrac{1}{1 - \frac{2}{\pi} z}
+\end{equation} 
+Коэффициенты ряда Тейлора данной функции имеют вид
+\begin{equation}
+    [z^n] 2\log \dfrac{1}{1 - \frac{2}{\pi}z} = \dfrac{2}{n} \left( \frac{2}{\pi}
+\right)^n 
+\end{equation}
+Следовательно, чтобы получить количество заданных структур, нужно умножить этот
+ответ на \( n! \), в результате
+\begin{equation}
+    B_n \underset{n \to \infty}\sim 2 (n-1)! \left( \frac{2}{\pi} \right)^n
+\enspace .
+\end{equation}
 
 \begin{problem}
 Рассмотрим множество всех путей на плоскости из точки \( (0,0) \) в точку \(
