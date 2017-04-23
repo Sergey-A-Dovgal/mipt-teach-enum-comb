@@ -560,57 +560,91 @@ rounded corners=3mm,inner sep=2pt, bgreen] {};
 \begin{problem}
 Рассмотрим множество всех путей на плоскости из точки \( (0,0) \) в точку \(
 (n,n) \), которые состоят только из отрезков вида ``вправо'' \( (1,0) \) и ``вверх'' \(
-(0,1) \). Известно, что число таких путей равно \( {2n \choose n} \), как нас
-учили в курсе комбинаторики. Выберем среди всех таких путей из \( (0,0) \) в \(
+(0,1) \). Выберем среди всех таких путей из \( (0,0) \) в \(
 (n,n) \) один путь случайно равновероятно. Количество пересечений этого пути с
 диагональю (то есть количество точек вида \( (i,i) \), которые лежат на этом
 пути), это случайная величина, которую мы обозначим \( U_n \). Докажите, что
 матожидание \( U_n \) имеет асимптотику
 \begin{equation}
-    \mathbb E U_n \sim \sqrt{\pi n}
+    \mathbb E U_n = \dfrac{4^n}{ {2n \choose n}} \sim \sqrt{\pi n}
 \end{equation}
 \end{problem}
 
-\begin{solution}
-Задача с mathoverflow. Найти количество пересечений (возможно касаний) с
-диагональю путь в квадрате \( n \times n \).               
+\newcommand{\latticepath}[1]{
+    \draw[ultra thick, blackblue] (0,0) node{}
+    \foreach \x in {#1}{ -- \if u\x ++(0,0.5) \else
+        ++(0.5,0) \fi node{}};
+}
 
-Consider generating function of lattice paths which don't touch and don't cross the diagonal:
+\begin{center}
+\begin{tikzpicture}[>=stealth',thick, node distance=1.5cm] 
+\draw[style=help lines] (0,0) grid[step=.5cm] (5,5);
+\path[style=help lines, dashed] (0,0)  edge node {} (5,5);
+\latticepath{r,r,u,r,u,u,r,u,u,u,r,u,r,r, r,r,u,r,u,u}
+\node[draw,circle,inner sep=2pt,fill, blackred] at (0,0) {};
+\node[draw,circle,inner sep=2pt,fill, blackred] at (3*0.5,3*0.5) {};
+\node[draw,circle,inner sep=2pt,fill, blackred] at (4*0.5,4*0.5) {};
+\node[draw,circle,inner sep=2pt,fill, blackred] at (7*0.5,7*0.5) {};
+\node[draw,circle,inner sep=2pt,fill, blackred] at (10*0.5,10*0.5) {};
+\end{tikzpicture}
+\end{center}
+
+\def\uu{ {\color{blackred}u} }
+
+\begin{solution}
+Рассмотрим производящую функцию путей решётки, которые находятся строго под
+диагональю, за исключением точек \( (0,0) \) и \( (n,n) \), и не пересекают её в
+других точках:
 $$
     Cat(z) = \dfrac{1 - \sqrt{1 - 4z}}{2} = z + z^2 + 2z^3 + 5z^4 + 14z^5 + \ldots
 $$
-Then we take product of $ k $ Catalan generating series which stands for lattice paths touching or crossing exactly $ k$ points:
+Это производящая функция чисел Каталана. Затем рассмотрим произведение \( k \)
+производящих функций Каталана, которые соответствуют путям решётки, которые
+касаются диагонали в точности в \( k \) точках:
 $$
-    [z^n] (Cat(z))^k = \text{\# lattice paths from $(0,0)$ to $(n,n)$ having $k$ diagonal points}
+    [z^n] (Cat(z))^k = \text{\# путей из $(0,0)$ в $(n,n)$, содержащих $k$
+точек вида $(i,i)$}
 $$
-Then we assemble everything into bivariate generating function, adding multiple $2^k$ for two different possible sides of Catalan paths:
+Затем мы умножаем это произведение на \( 2^k \) (потому что путь может идти как
+над диагональю, так и под диагональю). Складывая эти произведения по всем
+возможным \( k > 0 \), мы получаем производящую функцию от двух переменных
 $$
-    F(z,u) = \sum_{k \geq 1} 2^k(Cat(z))^k u^k = \dfrac{1}{1 - u(1 - \sqrt{1-4z})}
+    F(z,\uu) = \sum_{k \geq 1} 2^k(Cat(z))^k \uu^k = \dfrac{1}{1 - \uu(1 - \sqrt{1-4z})}
 $$
-Note that if we plug $u=1$ then we obtain all possible paths from $(0,0)$ to $(n,n)$ regardless of number of diagonal crosses:
+Заметим, что если подставить \( \uu = 1 \), то получится обыкновенная производящая
+функция для числа путей из \( (0,0) \) в \( (n,n) \) независимо от количества
+пересечений диагонали:
 $$
     \dfrac{1}{\sqrt{1-4z}} = 1 + 2z + 6z^2 + 20z^3 + \ldots = \sum_{n \geq 0} {2n \choose n} z^n \enspace .
 $$
-According to the method of bivariate generating functions, the expectation is expressed by applying the point derivative operator:
+В соответствии с методом, который мы использовали в прошлых задачах,
+матемтическое ожидание можно выразить используя оператор дифференцирования по \(
+\uu \):
 $$
-    u \dfrac{d}{du} \sum_{n, k, \geq 0} a_{n,k} z^n u^k = 
-    \sum_{n, k, \geq 0} k a_{n,k} z^n u^k \enspace ,
+    \uu \dfrac{d}{d\uu} \sum_{n, k, \geq 0} a_{n,k} z^n \uu^k = 
+    \sum_{n, k, \geq 0} k a_{n,k} z^n \uu^k \enspace ,
 $$
-Denoting by $[z^n]f(z)$ the coefficient at $z^n$ in function $f(z)$, and by $U_n$ – random variable denoting the number of crossings, we obtain
+Обозначим  $[z^n]f(z)$ коэффициент при $z^n$ в функции $f(z)$, а через $U_n$~---
+случайную величину, которая обозначает число пересечений с диагональю. Тогда
+выполнено:
 $$
-    \mathbb E U_n = \dfrac{[z^n] \left.u \dfrac{d}{du} F(z,u)\right|_{u=1}}{[z^n] \left.F(z,u)\right|_{u=1}} \enspace .
+    \mathbb E U_n = \dfrac{[z^n] \left.\uu \dfrac{d}{d\uu}
+F(z,\uu)\right|_{\uu=1}}{[z^n] \left.F(z,\uu)\right|_{\uu=1}} \enspace .
 $$
 $$
-    \left.\dfrac{d}{du}\dfrac{1}{1 - u(1 - \sqrt{1-4z})} \right|_{u=1} = 
-    \left.\dfrac{1 - \sqrt{1-4z}}{\left[1 - u(1 - \sqrt{1-4z})\right]^2} \right|_{u=1} =
+    \left.\dfrac{d}{d\uu}\dfrac{1}{1 - \uu(1 - \sqrt{1-4z})} \right|_{\uu=1} = 
+    \left.\dfrac{1 - \sqrt{1-4z}}{\left[1 - \uu(1 - \sqrt{1-4z})\right]^2}
+\right|_{\uu=1} =
     \dfrac{1 - \sqrt{1-4z}}{1 - 4z}
 $$
-Applying asymptotic extraction of coefficients,
+Применяя метод асимптотического извлечения коэффициентов (например можно
+воспользоваться формулой Стирлинга для \( n! \)), получаем
 $$
     \mathbb E U_n =
     \dfrac{[z^n] \dfrac{1}{1 - 4z}}
     {[z^n] \dfrac{1}{\sqrt{1 - 4z}}} = 
     \dfrac{4^n}{ {2n \choose n} } \sim \sqrt{ \pi n}
+    \enspace .
 $$
 \end{solution}
     
@@ -635,10 +669,126 @@ $$
 \end{problem}       
 
 \begin{solution}
+Рассмотрим конечный автомат, который принимает слово, содержащее паттерн \( abb
+\).
 
+\begin{center}
+\begin{tikzpicture}[>=stealth',thick, node distance=1.5cm] 
+   \draw           
+   node[arn_r](0)                      { \( 0 \) }
+   node[arn_n](1)  [right of  = 0    ] { \( 1 \) } 
+   node[arn_n](2)  [right of  = 1    ] { \( 2 \) } 
+   node[arn_n](3)  [right of  = 2    ] { \( 3 \) } 
+   node(-1) [left of = 0, node distance=0.75cm] {}
+   ;
+    \node[rectangle,draw,fit=(3),
+    rounded corners=4mm,inner sep=2pt, bgreen](final) {};
+   \path[->] (-1) edge [bblue, thick]        node {       } (0);
+   \path[->] (0)  edge [bblue, thick, above] node {\( a \)} (1);
+   \path[->] (1)  edge [bblue, thick, above] node {\( b \)} (2);
+   \path[->] (final)  edge [bblue, thick,
+            loop above, min distance=8mm, in = 60, out = 120] node {\( a,b \)}
+    (final);
+   \path[->] (2)  edge [bblue, thick, above] node {\( b \)} (final);
+   \path[->] (0)  edge [bblue, thick,
+            loop above, min distance=10mm, in = 40, out = 110] node {\( b \)} (0);
+   \path[->] (1)  edge [bblue, thick,
+            loop above, min distance=10mm, in = 40, out = 110] node {\( a \)} (1);
+   \path[->] (2)  edge [bblue, thick, bend left = 60, above] node {\( a \)} (1);
+\end{tikzpicture}
+\end{center}
+
+Напомню, что мы говорим, что состояние \( s \) \emph{принимает} слово \( w \),
+если запуская автомат в состоянии \( s \) и подавая по одной буковке это слово,
+мы завершим в одном из \emph{конечных состояний}. В нашем случае состояние \( 0
+\) принимает в точности те слова, которые содержат паттерн \( abb \).
+
+Множества слов, которые принимаются соответствующими состояниями, описывается
+системой
+\begin{equation}
+\begin{cases}
+    L_0 &= a L_1 + b L_0 ,\\
+    L_1 &= a L_1 + b L_2 ,\\
+    L_2 &= a L_1 + b L_3 ,\\
+    L_3 &= a L_3 + b L_3 + \epsilon \enspace.
+\end{cases}
+\end{equation}
+Эти уравнения можно превратить в производящие функции, где коэффициент при \(
+x^n \) в функции \( L_m(z) \) обзначает количество слов длины \( n \), которые принимаются
+состоянием \( m \).
+\begin{equation}
+\begin{cases}
+    L_0(z) &= z L_1(z) + z L_0(z) ,\\
+    L_1(z) &= z L_1(z) + z L_2(z) ,\\
+    L_2(z) &= z L_1(z) + z L_3(z) ,\\
+    L_3(z) &= 2 L_3(z) + 1\enspace.
+\end{cases}
+\end{equation}
+Решая эту систему уравнений, получаем:
+\begin{equation}
+    L_0(z) = \dfrac{z^3}{(1-z)(1 - 2z)(1 - z - z^2)}
+    = \dfrac{1}{1 - 2z} - \dfrac{2+z}{1 - z - z^2} + \dfrac{1}{1-z}
+\end{equation}
+Таким образом, количество слов длины \( n \), которые принимаются состоянием \(
+0 \), или другими словами, количество слов, которые содержат паттерн \(abb \),
+  равно                           
+\begin{equation}
+    2^n - F_{n+3} + 1
+    \enspace ,
+\end{equation}
+где \( F_n \)~--- числа Фибоначчи.
+
+\def\uu{ {\color{blackred}u} }
+
+Перейдём ко второму пункту и посчитаем время ожидания. Для этого составим
+производящие функции от двух переменных \( L_0(z,\uu) \),
+ \( L_1(z,\uu) \), \( L_2(z,\uu) \), \( L_3(z,\uu) \), где переменная \( \uu \)
+маркирует, соответственно, время ожидания до того, как слово будет принято.
+Другими словами, скажем,  коэффициент \( [z^n \uu^k]L_0(z, \uu) \) равен
+количеству слов длины \( n \), которые принимаются состоянием \( 0 \), таких, что
+время ожидания до принятия слова составляет \( k \). 
+
+Несложно модицифировать исходную систему уравнений, включив в неё время
+ожидания:
+\begin{equation}
+\begin{cases}
+    L_0(z) &= \uu z L_1(z) + \uu z L_0(z) ,\\
+    L_1(z) &= \uu z L_1(z) + \uu z L_2(z) ,\\
+    L_2(z) &= \uu z L_1(z) + \uu z L_3(z) ,\\
+    L_3(z) &= 2 L_3(z) + 1\enspace.
+\end{cases}
+\end{equation}
+Решая эту систему, получаем
+\begin{equation}
+    L_0(z, \uu) = \dfrac{\uu^3 z^3}{(1 - \uu z)(1 - 2z)(1 - \uu z - \uu z^2)}
+    \enspace .
+\end{equation}
+Чтобы найти матожидание, достаточно продифференцировать эту функцию по \( \uu
+\), подставить \( \uu = 1 \), найти соответствующий коэффициент и разделить на
+число строк, которые принимаются:
+\begin{equation}
+    \dfrac{[z^n]\left. \dfrac{d}{d \uu} L_0(z, \uu) \right|_{\uu = 1}}
+    {[z^n] L_0(z, \uu)|_{\uu = 1}}
+\end{equation}
+Чтобы не делать много ``лишней'' работы по дифференцированию и раскладыванию в
+элементарные дроби, можно лишь посчитать асимптотическое количество, и для этого
+нужно просто найти асимптотику функции около точки \( z = \frac12 \), потому что
+это соответствует особенности комплекснозначной функции, наиболее близко
+расположенной к нулю.
+
+\begin{equation}
+    L_0(z, \uu) = \dfrac{1 - 2z\uu}{1 - 2z} L_0(z \uu)
+\end{equation}
+\begin{equation}
+    \left.\dfrac{d}{d\uu} L_0(z, \uu)\right|_{\uu = 1} = 
+    \dfrac{1}{1 - 2z} \dfrac{d}{d \uu} \dfrac{\uu^3 z^3}{(1 - \uu z)(1 - \uu z -
+\uu z^2)} 
+    = \dfrac{8}{1 - 2z}
+\end{equation}
+Таким образом, среднее время ожидания данного паттерна равно \( 8 \).
 \end{solution}
 
-\subparagraph*{Источник задач}
+\subparagraph*{Источники задач}
 \begin{enumerate}
 \item Придумал из головы (скорее всего фольклор).
 \item Increasing Diamonds. Olivier Bodini, Matthieu Dien, Xavier Fontaine,
