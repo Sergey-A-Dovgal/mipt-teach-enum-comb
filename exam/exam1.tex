@@ -1,0 +1,211 @@
+\documentclass[a5paper]{article}
+% Uncomment the following line to allow the usage of graphics (.png, .jpg)
+%\usepackage[pdftex]{graphicx}
+% Comment the following line to NOT allow the usage of umlauts
+
+\pagestyle{empty}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{cmap}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{units}
+\usepackage{fancyhdr}
+\usepackage{forloop}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[inline]{enumitem}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amscd}
+\usepackage[ruled,vlined]{algorithm2e}
+
+%------------- TIKZ --------------------
+\definecolor{bblue}{rgb}{0.2, 0.4, 0.8}
+\definecolor{bgreen}{rgb}{0.2, 0.6, 0.4}
+\definecolor{bred}{rgb}{0.8, 0.4, 0.2}
+\definecolor{bviolet}{rgb}{0.7, 0.2, 0.7}
+\definecolor{blackred}{rgb}{0.6, 0.3, 0.3}
+\definecolor{blackblue}{rgb}{0.3, 0.3, 0.6}
+
+\usepackage{tikz}
+\usetikzlibrary{fit,arrows,trees,shapes,snakes,shapes.geometric,calc}
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered,
+    font=\sffamily},
+  arn_nn/.style = {treenode, circle, bblue, draw=bblue, 
+    fill=bblue!10,
+    minimum width=0.5em, minimum height=0.5em
+},% arbre rouge noir, noeud rouge
+  arn_n/.style = {treenode, circle, bblue, draw=bblue, 
+    text width=1.5em, very thick,
+    fill=bblue!10},% arbre rouge noir, noeud rouge
+  arn_g/.style = {treenode, circle, bgreen, draw=bgreen, 
+    text width=1.5em, very thick,
+    fill=bblue!10},% arbre rouge noir, noeud rouge
+  arn_r/.style = {treenode, circle, bred, draw=bred, 
+    text width=1.5em, very thick,
+    fill=bred!10},% arbre rouge noir, noeud rouge
+  arn_x/.style = {treenode, triangle, draw=black,
+    minimum width=0.5em, minimum height=0.5em},% arbre rouge noir, nil
+  triangle/.style = {treenode, bred, draw=bred, fill=bred!20, regular polygon, regular polygon
+    sides=3, very thick, text width=1.5em }
+}
+
+\renewcommand{\thesection}{\arabic{section}}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\fancyhead[R]{\thepage}
+%For multipage documents only!
+%\fancyfoot[L]{page: \thepage}
+\fancyhead[L]{Перечислительная комбинаторика}
+\fancyfoot[C]{\topic}
+
+\renewcommand{\baselinestretch}{1.0}
+\renewcommand\normalsize{\sloppypar}
+
+\setlength{\topmargin}{-1.2in}
+\setlength{\textheight}{6.8in}
+\setlength{\oddsidemargin}{-0.3in}
+\setlength{\evensidemargin}{-0.3in}
+\setlength{\textwidth}{4.5in}
+\setlength{\parindent}{0ex}
+
+\newcounter{problemset}
+\newcounter{totalpages}
+%Here you should set the total number of pages
+\setcounter{totalpages}{1}
+
+\def \topic {Экзамен по курсу перечислительной комбинаторики}
+
+\def \Z {\mathbb Z}
+\def \R {\mathbb R}
+\def \P {\mathbb P}
+\def \C {\mathbb C}
+\def \vec {\boldsymbol}
+
+\theoremstyle{definition}
+\newtheorem{lemma}{Лемма}
+\newtheorem{example}{Пример}
+\newtheorem{corollary}{Следствие}
+\newtheorem{problem}{Задача}
+\newtheorem*{theorem}{Теорема}
+\newtheorem*{definition}{Определение}
+
+\usepackage{titlesec}
+
+\makeatletter
+\renewcommand{\section}{\@startsection
+{section}%                   % the name
+{1}%                         % the level
+{\z@}%                       % the indent / 0mm
+{-\baselineskip}%            % the before skip / -3.5ex \@plus -1ex \@minus 
+%%-.2ex
+{0.5\baselineskip}%          % the after skip / 2.3ex \@plus .2ex
+{\centering\large\scshape}} % the style
+ 
+\renewcommand{\thesection}{\thechapter\arabic{section}.}
+
+\renewcommand{\subsection}{\@startsection
+{subsection}%                % the name
+{1}%                         % the level
+{\z@}%                       % the indent / 0mm
+{-\baselineskip}%            % the before skip / -3.5ex \@plus -1ex \@minus 
+%%-.2ex
+{0.5\baselineskip}%          % the after skip / 2.3ex \@plus .2ex
+{\centering\large\scshape}} % the style
+\makeatother
+
+\def\seq{\text{\textsc{seq}}}   
+\def\cyc{\text{\textsc{cyc}}}   
+\def\set{\text{\textsc{set}}}   
+\def\C{\mathbb C}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{document}
+\begin{center}
+
+\vspace{-2cm}
+\HRule \\[0.2cm]
+{ \Large \bfseries \topic} %\\[0.2cm]
+\HRule
+
+\end{center}
+
+\begin{center}
+\boxed{\textsc{Можно решать любые три задачи}}
+\end{center}
+
+\begin{problem}
+    Рассмотрим правило для преобразования подстрок
+\begin{eqnarray*}
+    BBA &\to& AAB \enspace , \\
+    CBA &\to& CAB \enspace , \\
+    CCA &\to& CCB \enspace . 
+\end{eqnarray*}
+Докажите, что минимальное число шагов, которое требуется для перехода от строки
+\( CC A^{n} \) к строке, заканчивающейся на \( B \), имеет
+асимптотику \( \widetilde\Theta(\phi^n) \), \( \phi = \frac{1 + \sqrt{5}}{2} \),
+где \( \widetilde \Theta \) означает ``с точностью до полиномиального по \( n \)
+множителя''.
+\end{problem}
+
+\begin{problem}
+    Пусть числа \( 1, 2, \ldots, n \) записаны вдоль окружности,
+и число \( 1 \) находится в самой северной точке.
+Обозначим \( T_n \) количество деревьев с непересекающимися хордами.
+\begin{enumerate}
+\item[(i)] Докажите, что производящая функция количества этих деревьев
+\begin{equation}
+    T(z) = T_1 z + T_2 z^2 + T_3z^3 + \ldots
+\end{equation}
+удовлетворяет уравнению
+\(
+    T^3(z) - z T(z) + z^2 = 0
+\).
+\item[(ii)] Пользуясь формулой обращения Лагранжа, выведите, что
+\begin{equation}
+    T_n = \dfrac{1}{2n - 1} {3n - 3 \choose n-1}
+    \enspace .
+\end{equation}
+\end{enumerate}
+\end{problem}
+
+\newpage
+\begin{problem}
+    Серёжа любит доминошки \( 1 \times 1 \) и \( 1 \times 2 \) и складывает
+из них полоски \( 1 \times n \). Каждый раз когда в последовательности доминошек
+следующая по счёту доминошка имеет другой тип, Серёжа выпивает стакан чая.
+Найдите математическое ожидание (можно асимптотически в зависимости от \( n \))
+количество стаканов чая, которое выпьет Серёжа, если ему попалась полоска длины
+\( n \), выбранная случайно равновероятно из множества всех таких полосок. 
+\end{problem}
+
+\vspace{1cm}
+\begin{problem}
+    Рассмотрим множество \emph{плоских корневых деревьев}, содержащих \( n \)
+вершин. Под плоским корневым деревом понимается дерево, у которого выделена одна
+вершина (корневая) и порядок потомков вершины имеет значение, то есть граф
+нарисован на плоскости.
+
+Найдите (можно асимптотически) математическое ожидание количество вершин, у
+которых ровно один потомок.
+\end{problem}
+
+\vspace{1cm}
+\begin{problem}
+\emph{Возрастающее тернарное дерево}~--- это дерево, построенное на вершинах с
+различными метками от \( 1 \) до \( n \), такое, что что у каждой вершины
+либо \( 0 \) либо \( 3 \) потомка, и номера меток вдоль каждго пути возрастают.
+Докажите, что количество возрастающих тернарных деревьев на \( n \) вершинах 
+равно \( n! 2^{-n} { 2n \choose n} \).
+\end{problem}
+
+\end{document}
+
